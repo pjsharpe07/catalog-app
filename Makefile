@@ -1,4 +1,4 @@
-.PHONY: all build clean copy-src local requirements setup test up update-dependencies
+.PHONY: all build clean copy-src local requirements setup test up update-dependencies create-admin
 
 CKAN_HOME := /usr/lib/ckan
 
@@ -27,4 +27,23 @@ update-dependencies:
 	docker-compose run --rm -T app pip install -r requirements.txt
 
 up:
-	docker-compose up
+	docker-compose up -d
+
+create-admin:
+	docker-compose run --rm app ckan sysadmin add admin
+
+hop-in:
+	docker-compose exec app /bin/bash
+
+prune:
+	docker system prune -a
+
+# harvester-steps
+harvest-run:
+	docker-compose run --rm app ckan --plugin=ckanext-harvest harvester run
+
+harvest-gather:
+	docker-compose run --rm app ckan --plugin=ckanext-harvest harvester gather_consumer
+
+harvest-fetch:
+	docker-compose run --rm app ckan --plugin=ckanext-harvest harvester fetch_consumer
