@@ -29,7 +29,7 @@ update-dependencies:
 up:
 	docker-compose up -d
 
-create-admin:
+admin:
 	docker-compose run --rm app ckan sysadmin add admin
 
 hop-in:
